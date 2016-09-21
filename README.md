@@ -21,6 +21,13 @@ Term: Fall 2016
 
 Following [suggestions](http://nicercode.github.io/blog/2013-04-05-projects/) by [RICH FITZJOHN](http://nicercode.github.io/about/#Team) (@richfitz). This folder is orgarnized as follows.
 
+
+Warning:
+
+.Rdata file is too large that cannot be uploaded, so please delet the "#" mark in the data reading part and run the code to read data.
+Data file ss14pusa.csv and ss14pusb.csv can be downloaded from puma website (http://www.census.gov/programs-surveys/acs/data/pums.html).
+
+
 When looking at the output fileset, to make the link in html work, please download the Project_1_Group_9_Final.html file and put six map.html files in the same document.
 
 ```
