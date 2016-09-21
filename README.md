@@ -27,6 +27,7 @@ Warning:
 .Rdata file is too large that cannot be uploaded, so please delet the "#" mark in the data reading part and run the code to read data.
 Data file ss14pusa.csv and ss14pusb.csv can be downloaded from puma website (http://www.census.gov/programs-surveys/acs/data/pums.html).
 
+The data is pretty large, so please be patient and run them in a computer with large memory (at least 8GB recommended).
 
 When looking at the output fileset, to make the link in html work, please download the Project_1_Group_9_Final.html file and put six map.html files in the same document.
 
