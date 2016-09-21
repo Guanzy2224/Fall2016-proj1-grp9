@@ -1,0 +1,117 @@
+---
+title: "MAP5"
+output:
+  html_document: default
+  html_notebook: default
+  pdf_document: default
+---
+
+
+---
+title: "Where to Find the Best Job?"
+output:
+  html_document: default
+  html_notebook: default
+  pdf_document: default
+---
+
+       
+
+```{r map5, echo=FALSE, message=FALSE}
+library(readr)
+library(dplyr)
+library(maps)
+library(leaflet)
+library(rbokeh)
+library(fmsb)
+
+setwd("C:/Users/Administrator/Desktop/ADS/Proj 1/Data")
+load(".RData")
+
+#a14=read_csv("ss14pusa.csv")
+#b14=read_csv("ss14pusb.csv")
+#all14=rbind(a14,b14)
+#rm(a14);rm(b14)
+#gc();Sys.sleep(10);gc() #To make sure clean all memory in case of crash
+
+
+#selct=select(all14,OCCP,ST,WAGP,AGEP,JWMNP,ESR,SCHL,SEX,WKHP,NAICSP,PWGTP,POWSP,POWPUMA)%>%
+#      na.omit()%>%
+#      mutate(WAGP=as.numeric(WAGP),
+#             AGEP=as.numeric(AGEP),
+#             WKHP=as.numeric(WKHP),
+#             JWMNP=as.numeric(JWMNP),
+#             PWGTP=as.numeric(PWGTP),
+#             ST=as.integer(ST),
+#             SCHL=as.integer(SCHL),
+#             SEX=as.integer(SEX),
+#             OCCP=as.integer(OCCP))%>%
+#       merge(occupa,by="OCCP")
+      
+
+group_ST=group_by(selct,ST)
+sumrz_ST=summarise(group_ST,
+                   Meanwage=weighted.mean(WAGP,w=PWGTP),
+                   MeanAGEP=weighted.mean(AGEP,w=PWGTP),
+                   MeanWKHP=weighted.mean(WKHP,w=PWGTP),
+                   MeanJWMNP=weighted.mean(JWMNP,w=PWGTP)
+                    )%>%
+          mutate(ST.map=match((ST_name$abbr[-52]),state.fips$abb,nomatch=99))%>%
+          mutate(abb=state.fips$abb[ST.map])%>%
+          arrange(ST.map)
+map.data=merge(state.fips,sumrz_ST,by="abb",all=T)%>%
+         arrange(ST.map)
+group_OCCPABB=group_by(selct,OCCABB)
+sumrz_OCCPABB=summarise(group_OCCPABB,
+                   Meanwage=weighted.mean(WAGP,w=PWGTP),
+                   MeanAGEP=weighted.mean(AGEP,w=PWGTP),
+                   MeanWKHP=weighted.mean(WKHP,w=PWGTP),
+                   MeanJWMNP=weighted.mean(JWMNP,w=PWGTP),
+                   MeanSCHL=weighted.mean(SCHL,w=PWGTP),
+                   MeanSEX=weighted.mean(SEX,w=PWGTP),
+                   Count=sum(PWGTP)
+)
+
+group_OCCP=group_by(selct,OCCP)
+sumrz_OCCP=summarise(group_OCCP,
+                        Meanwage=weighted.mean(WAGP,w=PWGTP),
+                        MeanAGEP=weighted.mean(AGEP,w=PWGTP),
+                        MeanWKHP=weighted.mean(WKHP,w=PWGTP),
+                        MeanJWMNP=weighted.mean(JWMNP,w=PWGTP),
+                        MeanSCHL=weighted.mean(SCHL,w=PWGTP),
+                        MeanSEX=weighted.mean(SEX,w=PWGTP),
+                        Count=sum(PWGTP),
+                        JOBNAME=OCCUPATION[1]
+)
+fil_selct=filter(selct,OCCABB=="CMM")
+group_ST.CMM=group_by(fil_selct,ST)
+sumrz_ST.CMM=summarise(group_ST.CMM,
+                   Meanwage=weighted.mean(WAGP,w=PWGTP),
+                   MeanAGEP=weighted.mean(AGEP,w=PWGTP),
+                   MeanWKHP=weighted.mean(WKHP,w=PWGTP),
+                   MeanJWMNP=weighted.mean(JWMNP,w=PWGTP)
+                    )%>%
+          mutate(ST.map=match(ST_name$abbr[-52],state.fips$abb,nomatch=99))%>% #statename.csv file must be cleaned
+          mutate(abb=state.fips$abb[ST.map])%>%
+          arrange(ST.map)
+map2.data=merge(state.fips,sumrz_ST.CMM,by="abb",all=T)%>%
+         arrange(ST.map)
+
+
+pal5 <- colorNumeric(
+  palette = "Blues",
+  domain = map2.data$MeanWKHP
+)
+
+
+mapStates = map("state", fill = TRUE, plot = FALSE)
+leaflet(data = mapStates) %>% addTiles() %>%
+  addPolygons(fillColor =pal5(map2.data$MeanWKHP), fillOpacity=0.5,stroke = FALSE)
+```
+
+
+
+##Figure 7. Map for Average Working Hour (Occupation Category: CMM-Computer and Mathematical Occupations)
+
+
+
