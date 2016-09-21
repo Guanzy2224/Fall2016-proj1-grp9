@@ -16,7 +16,9 @@ Term: Fall 2016
 +     3. Computer and Mathmatical Occupations Analysis: If I stay with what I learnt, where should I go? Focusing on the computer and Mathmatical Occupations, research on the working hours and wage by different states.
 +     
 +   
-**Contribution statement**: ([default](doc/a_note_on_contributions.md)) All team members contributed equally in all stages of this project. All team members approve our work presented in this GitHub repository including this contributions statement. 
+**Contribution statement**:
+     Since there are only 2 of us in our group on project 1, we were working together on this project most of the time. As for detailed distribution, Guanzhong did an amazing job on coding while Zheyuan is more responsible for the research design and collecting and organizing the information.
+
 Following [suggestions](http://nicercode.github.io/blog/2013-04-05-projects/) by [RICH FITZJOHN](http://nicercode.github.io/about/#Team) (@richfitz). This folder is orgarnized as follows.
 
 ```
